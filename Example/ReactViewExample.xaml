@@ -7,8 +7,18 @@
         mc:Ignorable="d"
         Title="ReactViewExample" Height="450" Width="800">
     <DockPanel>
-        <Button DockPanel.Dock="Bottom" Click="OnWPFButtonClick">WPF button</Button>
+        <StackPanel DockPanel.Dock="Bottom" >
+            <Border Background="AntiqueWhite" Padding="10" MouseMove="OnDragPlaceholderMouseMove">
+                <TextBlock TextAlignment="Center">Drag Me</TextBlock>
+            </Border>
+            <Button Click="OnWPFButtonClick" AllowDrop="True" Padding="10">WPF button</Button>
+        </StackPanel>
 
-        <local:ExampleView x:Name="exampleView" Click="OnExampleViewClick" />
+        <local:ExampleView x:Name="exampleView" 
+                           Click="OnExampleViewClick" 
+                           EnableDebugMode="True"
+                           AllowDrop="True"
+                           CanDrop="OnExampleViewCanDrop"/>
+
     </DockPanel>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace Example {
     /// <summary>
@@ -7,6 +8,9 @@ namespace Example {
     public partial class ReactViewExample : Window {
         public ReactViewExample() {
             InitializeComponent();
+            exampleView.Plugins = new [] {
+                new Plugin()
+            };
         }
 
         private void OnExampleViewClick(SomeType arg) {
@@ -14,7 +18,17 @@ namespace Example {
         }
 
         private void OnWPFButtonClick(object sender, RoutedEventArgs e) {
-            exampleView.CallMe();
+            exampleView.CallMe("some text", false, 1.5);
+        }
+
+        private void OnDragPlaceholderMouseMove(object sender, System.Windows.Input.MouseEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                DragDrop.DoDragDrop((DependencyObject) sender, "Drag Me", DragDropEffects.All);
+            }
+        }
+
+        private string OnExampleViewCanDrop(string data) {
+            return data;
         }
     }
 }
