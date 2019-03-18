@@ -269,7 +269,7 @@ namespace WebViewControl {
             // avoid dead-lock, wait for all pending calls to finish
             JavascriptCallFinished += () => {
                 if (javascriptPendingCalls == 0) {
-                    Dispatcher.BeginInvoke((Action) InternalDispose);
+                    Dispatcher.RunAsyncInUIThread(InternalDispose);
                 }
             };
 
@@ -632,7 +632,7 @@ namespace WebViewControl {
 
             if (!handled) {
                 // don't use invoke async, as it won't forward the exception to the dispatcher unhandled exception event
-                Dispatcher.BeginInvoke((Action) (() => throw e));
+                Dispatcher.RunAsyncInUIThread(() => throw e);
             }
         }
 

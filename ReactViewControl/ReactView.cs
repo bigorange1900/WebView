@@ -15,11 +15,12 @@ namespace ReactViewControl {
         private static ReactViewRender CreateReactViewInstance() {
             var result = cachedView;
             cachedView = null;
-            Application.Current.Dispatcher.BeginInvoke((Action)(() => {
+            Application.Current.Dispatcher.RunAsyncInUIThread(() => {
                 if (cachedView == null && !Application.Current.Dispatcher.HasShutdownStarted) {
                     cachedView = new ReactViewRender(true);
                 }
-            }), DispatcherPriority.Background);
+            }, 
+            DispatcherPriority.Background);
             return result ?? new ReactViewRender(true);
         }
 
@@ -33,14 +34,15 @@ namespace ReactViewControl {
             }
             SetResourceReference(StyleProperty, typeof(ReactView)); // force styles to be inherited, must be called after view is created otherwise view might be null
             Content = view;
-            Dispatcher.BeginInvoke(DispatcherPriority.Send, (Action)(() => {
+            Dispatcher.RunAsyncInUIThread(() => {
                 if (!view.IsDisposing) {
                     if (EnableHotReload) {
                         view.EnableHotReload(Source);
                     }
                     view.LoadComponent(this);
                 }
-            }));
+            },
+            DispatcherPriority.Send);
 
             FocusManager.SetIsFocusScope(this, true);
             FocusManager.SetFocusedElement(this, view.FocusableElement);

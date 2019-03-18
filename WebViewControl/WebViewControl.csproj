@@ -148,6 +148,7 @@
     <Compile Include="WebView.ResourceHandler.cs" />
     <Compile Include="ResourcesManager.cs" />
     <Compile Include="WindowsEventsListener.cs" />
+    <Compile Include="WpfExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
