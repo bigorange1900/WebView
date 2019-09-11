@@ -2,34 +2,31 @@
 
 namespace WebViewControl {
 
-    partial class WebView {
+    public class Request {
 
-        public class Request {
+        private IRequest CefRequest { get; }
+        private string UrlOverride { get; }
 
-            private IRequest CefRequest { get; }
-            private string UrlOverride { get; }
+        internal Request(IRequest request, string urlOverride) {
+            CefRequest = request;
+            UrlOverride = urlOverride;
+        }
 
-            internal Request(IRequest request, string urlOverride) {
-                CefRequest = request;
-                UrlOverride = urlOverride;
-            }
+        public string Method {
+            get { return CefRequest.Method; }
+        }
 
-            public string Method {
-                get { return CefRequest.Method; }
-            }
+        public string Url {
+            get { return UrlOverride ?? CefRequest.Url; }
+        }
 
-            public string Url {
-                get { return UrlOverride ?? CefRequest.Url; }
-            }
+        public virtual void Cancel() {
+            Canceled = true;
+        }
 
-            public virtual void Cancel() {
-                Canceled = true;
-            }
-
-            public bool Canceled {
-                get;
-                private set;
-            }
+        public bool Canceled {
+            get;
+            private set;
         }
     }
 }
